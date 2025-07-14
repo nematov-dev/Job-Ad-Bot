@@ -25,12 +25,11 @@ Bot **aiogram** kutubxonasi yordamida ishlab chiqilgan.
 
 1. 📥 Repository’ni yuklab oling:
 
-```bash
+```
 git clone https://github.com/nematov-dev/Job-Ad-Bot.git
 cd Job-Ad-Bot
 
 📦 Kerakli kutubxonalarni o‘rnating:
-
 
 pip install -r requirements.txt
 ⚙️ .env faylini yaratib, quyidagilarni to‘ldiring:
