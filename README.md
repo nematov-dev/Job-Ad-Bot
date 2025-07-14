@@ -28,6 +28,7 @@ Bot **aiogram** kutubxonasi yordamida ishlab chiqilgan.
 ```bash
 git clone https://github.com/nematov-dev/Job-Ad-Bot.git
 cd Job-Ad-Bot
+
 📦 Kerakli kutubxonalarni o‘rnating:
 
 
@@ -43,15 +44,17 @@ DB_NAME=your_database_name
 DB_USER=your_database_user
 DB_PASS=your_database_password
 DB_HOST=your_database_host
-DB_PORT=your_database_port
+DB_PORT=your_database_port```
 
+---
 
-🚀 Botni ishga tushirish:
+## 🚀 Botni ishga tushirish:
 
 python main.py
 
+---
 
-🛠 Texnologiyalar
+## 🛠 Texnologiyalar
 
 Python 3.11+
 
@@ -61,8 +64,9 @@ PostgreSQL
 
 Asyncio
 
+---
 
-📋 Foydalanish tartibi
+## 📋 Foydalanish tartibi
 
 Botni ishga tushiring va /start buyrug‘i orqali menyuga kiring.
 
@@ -80,7 +84,9 @@ Jarayonni istalgan vaqtda /cancel buyrug‘i orqali bekor qilishingiz mumkin.
 
 /help buyrug‘i orqali barcha imkoniyatlar va bot haqida qo‘shimcha ma’lumot olishingiz mumkin.
 
-📄 Litsenziya
+---
+
+## 📄 Litsenziya
 Ushbu loyiha mualliflik huquqi bilan himoyalangan.
 Loyihadan faqat muallif ruxsati bilan foydalanish mumkin.
 
