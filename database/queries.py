@@ -20,7 +20,7 @@ def create_users_table():
     except Exception as e:
         print(f"Xatolik mavjud: {e}")
 
-#Create Ads Table
+#Create Worker Ads Table
 
 def create_worker_ads_table():
     try:
@@ -28,7 +28,7 @@ def create_worker_ads_table():
         CREATE TABLE IF NOT EXISTS worker_ads (
         id SERIAL PRIMARY KEY,
         user_id INT REFERENCES users(id),
-        name VARCHAR(50) NOT NULL,
+        name VARCHAR(100) NOT NULL,
         description TEXT,
         status BOOLEAN DEFAULT TRUE,
         chat_message_id BIGINT
@@ -38,6 +38,24 @@ def create_worker_ads_table():
 
     except Exception as e:
         print(f"Xatolik: {e}")
+
+
+# Creat Job Ads Table
+
+def create_jobs_ads_table():
+    try:
+        sql = """
+        CREATE TABLE IF NOT EXISTS job_ads (
+        id SERIAL PRIMARY KEY,
+        user_id INT REFERENCES user(id),
+        chat_message_id BIGINT
+        )"""
+        cursor.execute(sql)
+        conn.commit()
+
+    except Exception as e:
+        print(f"Xatolik: {e}")
+
 
 #Add user
 
@@ -225,12 +243,12 @@ def get_worker_description_by_id(id):
         print(f"Xatolik: {e}")
         return False
 
-# My ads
+# My Worker ads 
 
 def my_ads_worker(user_id):
     try:
         sql = """
-        SELECT * FROM worker_ads WHERE user_id = (%s) AND status = TRUE"""
+        SELECT * FROM worker_ads WHERE user_id = (%s) AND status = TRUE """
         cursor.execute(sql,(user_id,))
         return cursor.fetchall()
 
@@ -238,6 +256,33 @@ def my_ads_worker(user_id):
         print(f"Xatolik: {e}")
         return False
     
+    
+# Create Job ads
 
+def create_job_ads(user_id: int,chat_message_id: int):
+    try:
+        sql = """
+        INSERT INTO job_ads (user_id,chat_message_id) 
+        VALUES(%s,%s)
+        """
+        cursor.execute(sql,(user_id,chat_message_id))
+        conn.commit()
+        return True
     
+    except Exception as e:
+        print(f"Xatolik: {e}")
+        return False
     
+# My Job ads
+
+def get_my_job_ads(user_id):
+
+    try:
+        sql = """
+        SELECT * FROM job_ads WHERE user_id = (%s)"""
+        cursor.execute(sql,(user_id,))
+        return cursor.fetchall()
+
+    except Exception as e:
+        print(f"Xatolik: {e}")
+        return False

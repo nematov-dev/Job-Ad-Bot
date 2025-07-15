@@ -214,6 +214,146 @@ async def on_reject(query: CallbackQuery, bot: Bot):
     await query.message.edit_reply_markup()
     await query.message.delete()
     await bot.send_message(telegram_id, "❌ Admin e’loningizni rad etdi.") #send user
+
+
+
+
+
+
+
+
+# Ad Job answer
+
+@router.message(F.text.in_({"👤 Ish kerak","/add_job"}))
+async def ad_job_start(message: Message,bot: Bot,state: FSMContext):
+     await message.reply("<b>Ism Familiyangizni kiriting:</b> \n\nMasalan: Olim Olimov",parse_mode="HTML",reply_markup=cancel_keyboard())
+     await state.set_state(user_state.job_ad.full_name)
+
+# Start Job Ad state
+
+@router.message(user_state.job_ad.full_name)
+async def ad_job_name(message: Message,bot: Bot,state: FSMContext):
+     await state.update_data(full_name=message.text)
+     await message.reply("<b>Yoshingizni kiriting:</b>\n\nMasalan: 20",parse_mode="HTML",reply_markup=cancel_keyboard())
+     await state.set_state(user_state.job_ad.age)
+
+@router.message(user_state.job_ad.age)
+async def ad_job_age(message: Message,bot: Bot,state: FSMContext):
+     await state.update_data(age=message.text)
+     await message.reply("<b>Kasbingizni kiriting:</b>\n\nMasalan: Sotuvchi",parse_mode="HTML",reply_markup=cancel_keyboard())
+     await state.set_state(user_state.job_ad.job)
+
+@router.message(user_state.job_ad.job)
+async def ad_job_job(message: Message,bot: Bot,state: FSMContext):
+     await state.update_data(job=message.text)
+     await message.reply("<b>O'zingiz haqida qisqacha yozing:</b>\n\nSotuv sohasida +3 yillik tajriba ega sotuvchiman",parse_mode="HTML",reply_markup=cancel_keyboard())
+     await state.set_state(user_state.job_ad.description)
+    
+@router.message(user_state.job_ad.description)
+async def ad_job_description(message: Message,bot: Bot,state: FSMContext):
+     await state.update_data(description=message.text)
+     await message.reply("<b>Hududni kiriting:</b>\n\nMasalan: Qashqadaryo viloyati,Shahrisabz Shahri",parse_mode="HTML",reply_markup=cancel_keyboard())
+     await state.set_state(user_state.job_ad.location)
+    
+@router.message(user_state.job_ad.location)
+async def ad_job_location(message: Message,bot: Bot,state: FSMContext):
+     await state.update_data(location=message.text)
+     await message.reply("<b>Aloqa uchun telefon raqam yoki telegram @username kiriting:</b>\n\nMasalan: @username",parse_mode="HTML",reply_markup=cancel_keyboard())
+     await state.set_state(user_state.job_ad.contact)
+
+@router.message(user_state.job_ad.contact)
+async def ad_job_contact(message: Message,bot: Bot,state: FSMContext):
+     await state.update_data(contact=message.text)
+     data = await state.get_data()
+     text = f"""
+📌 <b>Ish kerak</b>\n
+👤 <b>Ism familiya:</b> {data['full_name']}\n
+🕑 <b>Yosh:</b> {data['age']}\n
+📂 <b>Kasb:</b> {data['job']}\n
+🗒 <b>Batafsil:</b> {data['description']}\n
+📍 <b>Hudud:</b> {data['location']}\n
+📞 <b>Aloqa uchun:</b> {data['contact']}"""
+     await message.answer_photo(photo="https://t.me/testimagesfor/4",caption=text,parse_mode="HTML")
+     await message.reply("<b>❗Ma'lumotlaringizni tekshiring. E'loningizni tasdiqlaysizmi?</b>",parse_mode="HTML",reply_markup=coniform_keyboard())
+     await state.set_state(user_state.job_ad.coniform)
+
+@router.message(user_state.job_ad.coniform)
+async def ad_job_coniform(message: Message,bot: Bot,state: FSMContext):
+     if message.text == "✅ Xa":
+          data = await state.get_data()
+          text = f"""
+📌 <b>Ish kerak</b>\n
+👤 <b>Ism familiya:</b> {data['full_name']}\n
+🕑 <b>Yosh:</b> {data['age']}\n
+📂 <b>Kasb:</b> {data['job']}\n
+🗒 <b>Batafsil:</b> {data['description']}\n
+📍 <b>Hudud:</b> {data['location']}\n
+📞 <b>Aloqa uchun:</b> {data['contact']}\n
+<b>👉🏻 E'lon joylash uchun: @{BOT_USERNAME}</b>"""
+          
+          await message.reply("👌")
+          await message.reply(f"<b>🕐 E'longiz adminga muaffaqiyatli yuborildi!</b>\n\nAdmin tasdiqlashi bilan e'longiz guruhimizga joylanadi.\nGuruhimiz: @{CHANEL_USERNAME}",parse_mode="HTML",reply_markup=main_keyboard())
+          await bot.send_photo(
+               chat_id=ADMIN_ID,
+               photo="https://t.me/testimagesfor/4",
+               caption=text,
+               reply_markup=confirm_inline(user_id=message.from_user.id)
+               )
+          await state.clear()
+
+     elif message.text == "❌ Yo'q":
+          await message.reply("E'longiz bekor qilindi!",reply_markup=main_keyboard())
+          await state.clear()
+     else:
+          await message.reply("Iltimos faqat `✅ Xa` yoki `❌ Yo'q` yuboring!")
+
+# Admin Job Ad coniform
+
+@router.callback_query(F.data.startswith("confirm:"))
+async def on_confirm(query: CallbackQuery, bot: Bot):
+    _, user_id_str = query.data.split(':')
+    user_id = int(user_id_str) # user telegram id
+    db_user_id = queries.get_user_id_by_telegram_id(user_id) #user dabatase id
+
+    await query.answer("✅ E’lon tasdiqlandi")
+    await query.message.edit_reply_markup()
+    await query.message.delete()
+
+     # Channel send message
+    send_msg = await bot.send_photo(
+        chat_id=CHANEL_ID,
+        photo="https://t.me/testimagesfor/5",
+        caption=query.message.caption or "",
+        parse_mode="HTML"
+    )
+    post_id = send_msg.message_id # channel message_id
+
+     # Create Job ad
+    queries.create_job_ads(user_id=db_user_id,chat_message_id=post_id)
+
+    # Foydalanuvchiga xabar
+    await bot.send_message(user_id, f"✅ Sizning e’lon tasdiqlandi!\n\nhttps://t.me/{CHANEL_USERNAME}/{post_id}")
+
+# Admin Worker Ad reject
+
+@router.callback_query(F.data.startswith("reject:"))
+async def on_reject(query: CallbackQuery, bot: Bot):
+    _, telegram_id_str = query.data.split(':')
+    telegram_id = int(telegram_id_str)
+    await query.answer("❌ E’lon bekor qilindi!") # send admin
+    await query.message.edit_reply_markup()
+    await query.message.delete()
+    await bot.send_message(telegram_id, "❌ Admin e’loningizni rad etdi.") #send user
+
+
+
+
+
+
+
+
+
+
     
 # Start My ads command
 
