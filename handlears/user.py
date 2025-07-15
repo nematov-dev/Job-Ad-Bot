@@ -216,12 +216,6 @@ async def on_reject(query: CallbackQuery, bot: Bot):
     await bot.send_message(telegram_id, "❌ Admin e’loningizni rad etdi.") #send user
 
 
-
-
-
-
-
-
 # Ad Job answer
 
 @router.message(F.text.in_({"👤 Ish kerak","/add_job"}))
@@ -334,7 +328,7 @@ async def on_confirm(query: CallbackQuery, bot: Bot):
     # Foydalanuvchiga xabar
     await bot.send_message(user_id, f"✅ Sizning e’lon tasdiqlandi!\n\nhttps://t.me/{CHANEL_USERNAME}/{post_id}")
 
-# Admin Worker Ad reject
+# Admin Job Ad reject
 
 @router.callback_query(F.data.startswith("reject:"))
 async def on_reject(query: CallbackQuery, bot: Bot):
@@ -345,24 +339,16 @@ async def on_reject(query: CallbackQuery, bot: Bot):
     await query.message.delete()
     await bot.send_message(telegram_id, "❌ Admin e’loningizni rad etdi.") #send user
 
-
-
-
-
-
-
-
-
-
     
 # Start My ads command
 
 @router.message(F.text.in_({"📃 Mening e'lonlarim","/my_ads"}))
 async def ad_worker_start(message: Message,bot: Bot):
      db_user_id = queries.get_user_id_by_telegram_id(message.from_user.id) # User database id
-     worker_ads = queries.my_ads_worker(db_user_id) # user all worker ads
+     worker_ads = queries.my_ads_worker(db_user_id) # all worker ads
+     job_ads = queries.get_my_job_ads(db_user_id) # all job ads
 
-     if worker_ads:
+     if worker_ads or job_ads: # Worker ads
           await message.reply("<b>Sizning mavjud faol e'lonlaringiz:</b>",parse_mode="HTML")
           for worker_ad in worker_ads:
                text = f"""<b>🆔 ID raqami: </b>{worker_ad[0]}\n
@@ -371,6 +357,11 @@ async def ad_worker_start(message: Message,bot: Bot):
 📌 <b>Ish nomi:</b> {worker_ad[2]}\n
 ➡️<b> Batafsil: t.me/{CHANEL_USERNAME}/{worker_ad[4]}</b>"""
                await message.reply(text,parse_mode="HTML",reply_markup=ad_deactivate_keyboard())
+          for job_ad in job_ads: # Job ads
+               text = f"""
+📌 <b>Ish kerak</b>\n\n➡️<b> Batafsil: t.me/{CHANEL_USERNAME}/{job_ad[2]}"""
+          await message.reply(text,parse_mode="HTML",reply_markup=ad_deactivate_keyboard())
+               
      else:
           await message.reply("🤷🏻‍♂️ <b>Sizda birorta ham foal e'lon mavjud emas!\n\n➕ E'lon yaratish:\n/add_worker - Xodim kerak e'loni joylash.\n/add_job - Ish kerak e'loni joylash.</b>",parse_mode="HTML")
 
