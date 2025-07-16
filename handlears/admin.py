@@ -1,12 +1,15 @@
 from datetime import datetime
-from aiogram import F
+import asyncio
+from aiogram import F,Bot
 from aiogram.filters import Command
 from aiogram.types import Message
 from aiogram import Router
+from aiogram.fsm.context import FSMContext
 
 from filters.is_admin import IsAdmin
-from keyboards.admin_keyboard import main_keyboard_admin
+from keyboards.admin_keyboard import main_keyboard_admin,cancel_keyboard
 from database import queries
+from states.admin_state import admin_message
 from data.config import BOT_USERNAME
 
 
@@ -63,3 +66,38 @@ async def admin_start(message: Message):
     reply_markup=main_keyboard_admin(),
     parse_mode="HTML"
 )
+
+# send message Command answer
+@router.message(IsAdmin(), F.text == "📩 Xabar yuborish")
+async def admin_message_anwer(message: Message,state: FSMContext):
+    await message.reply("<b>✍️ Foydalanuvchilarga yubormoqchi bo'lgan xabaringizni kiriting (Qalin qilib yozmoqchi bo'lsangiz **matn** dan foydalaning!): </b>",parse_mode="HTML",reply_markup=cancel_keyboard())
+    await state.set_state(admin_message.message)
+
+# Stop state 
+@router.message(F.text == "❌ Bekor qilish")
+async def cancel(message: Message,bot: Bot,state: FSMContext):
+     this_state = await state.get_state()
+     if this_state is None:
+          await message.reply("<b>Jarayoni bekor qilish uchun sizda xabar mavjud emas.\n/start bosing.</b>",parse_mode="HTML")
+     else: 
+          await message.reply("<b>❎ Bekor qilindi!</b>",reply_markup=main_keyboard_admin(),parse_mode="HTML")
+          await state.clear()
+
+@router.message(admin_message.message)
+async def admin_message_state(message: Message,state: FSMContext,bot: Bot):
+    text = message.text
+    users = queries.get_all_users_id()
+    sent, failed = 0, 0
+
+    for user_id in users:
+        try:
+            await bot.send_message(chat_id=user_id, text=text)
+            sent += 1
+            
+        except Exception as e:
+            failed += 1
+            print(f"Xatolik foydalanuvchiga ({user_id}) yuborishda: {e}")
+        await asyncio.sleep(0.3)
+
+    await message.answer(f"✅ Yuborildi: {sent} ta\n❌ Xatolik: {failed} ta")
+    await state.clear()
