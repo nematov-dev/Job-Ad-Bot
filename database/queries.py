@@ -286,3 +286,122 @@ def get_my_job_ads(user_id):
     except Exception as e:
         print(f"Xatolik: {e}")
         return False
+    
+
+# Stat users
+
+# Users all count
+def stat_user_count():
+    try:
+        sql = """
+        SELECT COUNT(*) FROM users"""
+        cursor.execute(sql)
+        result = cursor.fetchone()
+        return result[0] if result else False
+    
+    except Exception as e:
+        print(f"Xatolik: {e}")
+        return False
+
+# Users today count
+def stat_user_today():
+    try:
+        sql = """
+        SELECT COUNT(*) FROM users WHERE DATE(created_at) = CURRENT_DATE"""
+        cursor.execute(sql)
+        result = cursor.fetchone()
+        return result[0] if result else False
+    
+    except Exception as e:
+        print(f"Xatolik: {e}")
+        return False
+    
+#Users 7 day count
+
+def stat_user_7day():
+    try:
+        sql = """
+        SELECT COUNT(*) FROM users
+        WHERE created_at >= NOW() - INTERVAL '7 days'
+        """
+        cursor.execute(sql)
+        result = cursor.fetchone()
+        return result[0] if result else False
+    
+    except Exception as e:
+        print(f"Xatolik: {e}")
+        return False
+    
+    
+# Users month count
+def stat_user_month():
+    try:
+        sql = """
+        SELECT COUNT(*) FROM users
+        WHERE created_at >= NOW() - INTERVAL '1 month'
+        """
+        cursor.execute(sql)
+        result = cursor.fetchone()
+        return result[0] if result else False
+    
+    except Exception as e:
+        print(f"Xatolik: {e}")
+        return False
+
+
+# Stat Worker ads
+
+#Worker ads all count
+def stat_worker_ads_count():
+    try:
+        sql = """
+        SELECT COUNT(*) FROM worker_ads"""
+        cursor.execute(sql)
+        result = cursor.fetchone()
+        return result[0] if result else False
+    
+    except Exception as e:
+        print(f"Xatolik: {e}")
+        return False
+
+#Worker ads status active count
+def stat_worker_ads_active_count():
+    try:
+        sql = """
+        SELECT COUNT(*) FROM worker_ads WHERE status = TRUE"""
+        cursor.execute(sql)
+        result = cursor.fetchone()
+        return result[0] if result else False
+    
+    except Exception as e:
+        print(f"Xatolik: {e}")
+        return False
+    
+#Worker ads status deactive count
+def stat_worker_ads_deactive_count():
+    try:
+        sql = """
+        SELECT COUNT(*) FROM worker_ads WHERE status = FALSE"""
+        cursor.execute(sql)
+        result = cursor.fetchone()
+        return result[0] if result else False
+    
+    except Exception as e:
+        print(f"Xatolik: {e}")
+        return False
+    
+
+# Stat Job Ads
+
+#Job ads all count
+def stat_job_ads_count():
+    try:
+        sql = """
+        SELECT COUNT(*) FROM job_ads"""
+        cursor.execute(sql)
+        result = cursor.fetchone()
+        return result[0] if result else False
+    
+    except Exception as e:
+        print(f"Xatolik: {e}")
+        return False

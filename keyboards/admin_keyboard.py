@@ -1,4 +1,5 @@
 from aiogram.types import InlineKeyboardButton,InlineKeyboardMarkup
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 # admin coniform worker ad
 def confirm_inline_worker(user_id: int):
@@ -20,3 +21,14 @@ def confirm_inline_job(user_id: int):
         ]
     ])
     return kb
+
+
+# Admin Main keyboard
+
+def main_keyboard_admin():
+    return ReplyKeyboardMarkup(
+        keyboard=[
+            [KeyboardButton(text="📩 Xabar yuborish"), KeyboardButton(text="📊 Statistika")]
+        ],
+        resize_keyboard=True
+    )

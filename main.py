@@ -29,7 +29,7 @@ async def main():
 
     # Routers
     loader.db.include_router(user.router)
-    # loader.db.include_router(admin.router)
+    loader.db.include_router(admin.router)
 
     # Bot commands
     await loader.bot.set_my_commands([
