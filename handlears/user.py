@@ -48,7 +48,7 @@ async def help(message: Message):
 ● /my_ads — O‘zingiz joylashtirgan e’lonlarni ko‘rish.
 ● /search - E’lonlar orasidan ish qidirish.
 
-📌 <b>Guruhimiz:</b> <a href='https://t.me/{CHANEL_USERNAME}'>Rasmiy guruh</a>
+📌 <b>Kanalimiz:</b> <a href='https://t.me/{CHANEL_USERNAME}'>Rasmiy kanal</a>
 
 ❗ <b>Eslatma:</b> E’lonlaringiz admin tasdig‘idan so‘ng kanalda e’lon qilinadi.
 
@@ -132,7 +132,7 @@ async def ad_worker_contact(message: Message,bot: Bot,state: FSMContext):
 📍 <b>Manzili:</b> {data['location']}\n
 💰 <b>Maosh:</b> {data['price']}\n
 📞 <b>Aloqa uchun:</b> {data['contact']}"""
-     await message.answer_photo(photo="https://t.me/testimagesfor/5",caption=text,parse_mode="HTML")
+     await message.answer_photo(photo="https://t.me/testimagesfor/6",caption=text,parse_mode="HTML")
      await message.reply("<b>❗Ma'lumotlaringizni tekshiring. E'loningizni tasdiqlaysizmi?</b>",parse_mode="HTML",reply_markup=coniform_keyboard())
      await state.set_state(user_state.worker_ad.coniform)
 
@@ -159,7 +159,7 @@ async def ad_worker_coniform(message: Message,bot: Bot,state: FSMContext):
                await message.reply(f"<b>🕐 E'longiz adminga muaffaqiyatli yuborildi!</b>\n\nAdmin tasdiqlashi bilan e'longiz guruhimizga joylanadi.\nGuruhimiz: @{CHANEL_USERNAME}",parse_mode="HTML",reply_markup=main_keyboard())
                await bot.send_photo(
                     chat_id=ADMIN_ID,
-                    photo="https://t.me/testimagesfor/5",
+                    photo="https://t.me/testimagesfor/6",
                     caption=text,
                     reply_markup=confirm_inline_worker(user_id=message.from_user.id)
                     )
@@ -190,7 +190,7 @@ async def on_confirm_worker(query: CallbackQuery, bot: Bot):
      # Channel send message
     send_msg = await bot.send_photo(
         chat_id=CHANEL_ID,
-        photo="https://t.me/testimagesfor/5",
+        photo="https://t.me/testimagesfor/6",
         caption=query.message.caption or "",
         parse_mode="HTML"
     )
@@ -267,7 +267,7 @@ async def ad_job_contact(message: Message,bot: Bot,state: FSMContext):
 🗒 <b>Batafsil:</b> {data['description']}\n
 📍 <b>Hudud:</b> {data['location']}\n
 📞 <b>Aloqa uchun:</b> {data['contact']}"""
-     await message.answer_photo(photo="https://t.me/testimagesfor/4",caption=text,parse_mode="HTML")
+     await message.answer_photo(photo="https://t.me/testimagesfor/7",caption=text,parse_mode="HTML")
      await message.reply("<b>❗Ma'lumotlaringizni tekshiring. E'loningizni tasdiqlaysizmi?</b>",parse_mode="HTML",reply_markup=coniform_keyboard())
      await state.set_state(user_state.job_ad.coniform)
 
@@ -289,7 +289,7 @@ async def ad_job_coniform(message: Message,bot: Bot,state: FSMContext):
           await message.reply(f"<b>🕐 E'longiz adminga muaffaqiyatli yuborildi!</b>\n\nAdmin tasdiqlashi bilan e'longiz guruhimizga joylanadi.\nGuruhimiz: @{CHANEL_USERNAME}",parse_mode="HTML",reply_markup=main_keyboard())
           await bot.send_photo(
                chat_id=ADMIN_ID,
-               photo="https://t.me/testimagesfor/4",
+               photo="https://t.me/testimagesfor/7",
                caption=text,
                reply_markup=confirm_inline_job(user_id=message.from_user.id)
                )
@@ -316,7 +316,7 @@ async def on_confirm_job(query: CallbackQuery, bot: Bot):
      # Channel send message
     send_msg = await bot.send_photo(
         chat_id=CHANEL_ID,
-        photo="https://t.me/testimagesfor/4",
+        photo="https://t.me/testimagesfor/7",
         caption=query.message.caption or "",
         parse_mode="HTML"
     )
@@ -369,7 +369,7 @@ async def ad_worker_start(message: Message,bot: Bot):
 
 @router.message(F.text == "🔴 E'loni foalsizlantirish")
 async def worker_ad_deactive(message: Message,bot: Bot,state: FSMContext):
-    await message.answer("<b>🆔 E'longiz ID raqamini kiriting: </b>", parse_mode="HTML")
+    await message.answer("<b>🆔 E'longiz ID raqamini kiriting: \n\n❗ Eslatma faqat 'Ishchi kerak' e'lonlaringizni foalsizlantirishingiz mumkin! </b>", parse_mode="HTML")
     await state.set_state(user_state.worker_ad_deactivate.worker_add_id)
 
 # Deactivate worker ad id
@@ -406,6 +406,7 @@ async def worker_ad_deactive_id(message: Message,bot: Bot,state: FSMContext):
 
      else:
           await message.answer("<b>❗Bunday faol e'lon topilmadi yoki ID noto‘g‘ri!</b>", parse_mode="HTML")
+     await state.clear()
 
 
 # Search command answer

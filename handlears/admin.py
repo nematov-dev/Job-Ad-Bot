@@ -70,7 +70,7 @@ async def admin_start(message: Message):
 # send message Command answer
 @router.message(IsAdmin(), F.text == "📩 Xabar yuborish")
 async def admin_message_anwer(message: Message,state: FSMContext):
-    await message.reply("<b>✍️ Foydalanuvchilarga yubormoqchi bo'lgan xabaringizni kiriting:",parse_mode="HTML",reply_markup=cancel_keyboard_admin())
+    await message.reply("<b>✍️ Foydalanuvchilarga yubormoqchi bo'lgan xabaringizni kiriting:</b>",parse_mode="HTML",reply_markup=cancel_keyboard_admin())
     await state.set_state(admin_message.message)
 
 # Stop state 
@@ -99,5 +99,5 @@ async def admin_message_state(message: Message,state: FSMContext,bot: Bot):
             await message.answer(f"Xatolik foydalanuvchiga ({user_id}) yuborishda: {e}")
         await asyncio.sleep(0.3)
 
-    await message.answer(f"✅ Yuborildi: {sent} ta\n❌ Xatolik: {failed} ta")
+    await message.answer(f"<b>✅ Yuborildi: {sent} ta\n❌ Xatolik: {failed} ta</b>",parse_mode="HTML",reply_markup=main_keyboard_admin())
     await state.clear()

@@ -19,6 +19,7 @@ def create_users_table():
 
     except Exception as e:
         print(f"Xatolik mavjud: {e}")
+        conn.rollback()
 
 #Create Worker Ads Table
 
@@ -38,6 +39,7 @@ def create_worker_ads_table():
 
     except Exception as e:
         print(f"Xatolik: {e}")
+        conn.rollback()
 
 
 # Creat Job Ads Table
@@ -55,6 +57,7 @@ def create_jobs_ads_table():
 
     except Exception as e:
         print(f"Xatolik: {e}")
+        conn.rollback()
 
 
 #Add user
@@ -70,7 +73,9 @@ def add_user(telegram_id: int,name:str,surname: str,username: str):
     
     except Exception as e:
         print(f"Xatolik mavjud: {e}")
+        conn.rollback()
         return False
+    
 
 #Check id
 
@@ -83,6 +88,7 @@ def check_id(telegram_id: int):
     
     except Exception as e:
         print(f"Xatolik mavjud: {e}")
+        conn.rollback()
         return False
     
 #Get all users id
@@ -97,6 +103,7 @@ def get_all_users_id():
     
     except Exception as e:
         print(f"Xatolik mavjud: {e}")
+        conn.rollback()
         return False
     
 # Get user_id By telegram_id
@@ -109,6 +116,7 @@ def get_user_id_by_telegram_id(telegram_id):
         return cursor.fetchone()
     except Exception as e:
         print(f"Xatolik: {e}")
+        conn.rollback()
         return False
 
 # Create Worker Ad
@@ -124,6 +132,7 @@ def create_worker_ad(user_id: int,name:str,description:str):
     
     except Exception as e:
         print(f"Xatolik: {e}")
+        conn.rollback()
         return False
     
 # Delete Worker Ad
@@ -144,6 +153,7 @@ def del_worker_ad(user_id: int):
         return True
     except Exception as e:
         print(f"Xatolik: {e}")
+        conn.rollback()
         return False
 
 # Add chat message id by user_id
@@ -164,6 +174,7 @@ def add_chat_message_id_by_user_id(user_id: int,chat_message_id: int):
         return True
     except Exception as e:
         print(f"Xatolik: {e}")
+        conn.rollback()
         return False
 
 # Update worker ad status by user_id
@@ -183,23 +194,11 @@ def update_worker_status_by_user_id(user_id, worker_ad_id):
     
     except Exception as e:
         print(f"Xatolik: {e}")
+        conn.rollback()
         return False
     
-# # Check worker ad status
 
-# def check_worker_ad_status(id):
-#     try: 
-#         sql = """
-#         SELECT status FROM worker_ads WHERE id = %s"""
-#         cursor.execute(sql,(id,))
-#         return cursor.fetchone([0])
-    
-#     except Exception as e:
-#         print(f"Xatolik: {e}")
-#         return False
-
-
-# Search worker ad'
+# Search worker ad
 
 def search_worker_ad(name:str):
     try:
@@ -214,6 +213,7 @@ def search_worker_ad(name:str):
     
     except Exception as e:
         print(f"Xatolik: {e}")
+        conn.rollback()
         return False
 
 
@@ -228,6 +228,7 @@ def get_worker_ad_chat_message_id_by_id(id):
     
     except Exception as e:
         print(f"Xatolik: {e}")
+        conn.rollback()
         return False
 
 # Get Worker ad description by id
@@ -241,6 +242,7 @@ def get_worker_description_by_id(id):
     
     except Exception as e:
         print(f"Xatolik: {e}")
+        conn.rollback()
         return False
 
 # My Worker ads 
@@ -254,6 +256,7 @@ def my_ads_worker(user_id):
 
     except Exception as e:
         print(f"Xatolik: {e}")
+        conn.rollback()
         return False
     
     
@@ -271,6 +274,7 @@ def create_job_ads(user_id: int,chat_message_id: int):
     
     except Exception as e:
         print(f"Xatolik: {e}")
+        conn.rollback()
         return False
     
 # My Job ads
@@ -285,6 +289,7 @@ def get_my_job_ads(user_id):
 
     except Exception as e:
         print(f"Xatolik: {e}")
+        conn.rollback()
         return False
     
 
@@ -301,6 +306,7 @@ def stat_user_count():
     
     except Exception as e:
         print(f"Xatolik: {e}")
+        conn.rollback()
         return False
 
 # Users today count
@@ -314,6 +320,7 @@ def stat_user_today():
     
     except Exception as e:
         print(f"Xatolik: {e}")
+        conn.rollback()
         return False
     
 #Users 7 day count
@@ -330,6 +337,7 @@ def stat_user_7day():
     
     except Exception as e:
         print(f"Xatolik: {e}")
+        conn.rollback()
         return False
     
     
@@ -346,6 +354,7 @@ def stat_user_month():
     
     except Exception as e:
         print(f"Xatolik: {e}")
+        conn.rollback()
         return False
 
 
@@ -362,6 +371,7 @@ def stat_worker_ads_count():
     
     except Exception as e:
         print(f"Xatolik: {e}")
+        conn.rollback()
         return False
 
 #Worker ads status active count
@@ -375,6 +385,7 @@ def stat_worker_ads_active_count():
     
     except Exception as e:
         print(f"Xatolik: {e}")
+        conn.rollback()
         return False
     
 #Worker ads status deactive count
@@ -388,6 +399,7 @@ def stat_worker_ads_deactive_count():
     
     except Exception as e:
         print(f"Xatolik: {e}")
+        conn.rollback()
         return False
     
 
@@ -404,4 +416,5 @@ def stat_job_ads_count():
     
     except Exception as e:
         print(f"Xatolik: {e}")
+        conn.rollback()
         return False
