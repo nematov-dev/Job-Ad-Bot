@@ -47,7 +47,7 @@ def create_jobs_ads_table():
         sql = """
         CREATE TABLE IF NOT EXISTS job_ads (
         id SERIAL PRIMARY KEY,
-        user_id INT REFERENCES user(id),
+        user_id INT REFERENCES users(id),
         chat_message_id BIGINT
         )"""
         cursor.execute(sql)

@@ -7,7 +7,7 @@ from aiogram.types import CallbackQuery
 
 
 from keyboards.user_keyboard import main_keyboard,coniform_keyboard,cancel_keyboard,ad_deactivate_keyboard
-from keyboards.admin_keyboard import confirm_inline
+from keyboards.admin_keyboard import confirm_inline_worker,confirm_inline_job
 from states import user_state
 from data.config import ADMIN_ID,CHANEL_ID,CHANEL_USERNAME,BOT_USERNAME
 from database import queries
@@ -161,7 +161,7 @@ async def ad_worker_coniform(message: Message,bot: Bot,state: FSMContext):
                     chat_id=ADMIN_ID,
                     photo="https://t.me/testimagesfor/5",
                     caption=text,
-                    reply_markup=confirm_inline(user_id=message.from_user.id)
+                    reply_markup=confirm_inline_worker(user_id=message.from_user.id)
                     )
                await state.clear()
           else:
@@ -177,8 +177,8 @@ async def ad_worker_coniform(message: Message,bot: Bot,state: FSMContext):
 
 # Admin Worker Ad coniform
 
-@router.callback_query(F.data.startswith("confirm:"))
-async def on_confirm(query: CallbackQuery, bot: Bot):
+@router.callback_query(F.data.startswith("confirm_worker:"))
+async def on_confirm_worker(query: CallbackQuery, bot: Bot):
     _, user_id_str = query.data.split(':')
     user_id = int(user_id_str) # user telegram id
     db_user_id = queries.get_user_id_by_telegram_id(user_id) #user dabatase id
@@ -204,8 +204,8 @@ async def on_confirm(query: CallbackQuery, bot: Bot):
 
 # Admin Worker Ad reject
 
-@router.callback_query(F.data.startswith("reject:"))
-async def on_reject(query: CallbackQuery, bot: Bot):
+@router.callback_query(F.data.startswith("reject_worker:"))
+async def on_reject_worker(query: CallbackQuery, bot: Bot):
     _, telegram_id_str = query.data.split(':')
     telegram_id = int(telegram_id_str)
     user_id = queries.get_user_id_by_telegram_id(telegram_id)
@@ -291,7 +291,7 @@ async def ad_job_coniform(message: Message,bot: Bot,state: FSMContext):
                chat_id=ADMIN_ID,
                photo="https://t.me/testimagesfor/4",
                caption=text,
-               reply_markup=confirm_inline(user_id=message.from_user.id)
+               reply_markup=confirm_inline_job(user_id=message.from_user.id)
                )
           await state.clear()
 
@@ -303,8 +303,8 @@ async def ad_job_coniform(message: Message,bot: Bot,state: FSMContext):
 
 # Admin Job Ad coniform
 
-@router.callback_query(F.data.startswith("confirm:"))
-async def on_confirm(query: CallbackQuery, bot: Bot):
+@router.callback_query(F.data.startswith("confirm_job:"))
+async def on_confirm_job(query: CallbackQuery, bot: Bot):
     _, user_id_str = query.data.split(':')
     user_id = int(user_id_str) # user telegram id
     db_user_id = queries.get_user_id_by_telegram_id(user_id) #user dabatase id
@@ -316,7 +316,7 @@ async def on_confirm(query: CallbackQuery, bot: Bot):
      # Channel send message
     send_msg = await bot.send_photo(
         chat_id=CHANEL_ID,
-        photo="https://t.me/testimagesfor/5",
+        photo="https://t.me/testimagesfor/4",
         caption=query.message.caption or "",
         parse_mode="HTML"
     )
@@ -325,13 +325,13 @@ async def on_confirm(query: CallbackQuery, bot: Bot):
      # Create Job ad
     queries.create_job_ads(user_id=db_user_id,chat_message_id=post_id)
 
-    # Foydalanuvchiga xabar
+    # send message user
     await bot.send_message(user_id, f"✅ Sizning e’lon tasdiqlandi!\n\nhttps://t.me/{CHANEL_USERNAME}/{post_id}")
 
 # Admin Job Ad reject
 
-@router.callback_query(F.data.startswith("reject:"))
-async def on_reject(query: CallbackQuery, bot: Bot):
+@router.callback_query(F.data.startswith("reject_job:"))
+async def on_reject_job(query: CallbackQuery, bot: Bot):
     _, telegram_id_str = query.data.split(':')
     telegram_id = int(telegram_id_str)
     await query.answer("❌ E’lon bekor qilindi!") # send admin
@@ -359,7 +359,7 @@ async def ad_worker_start(message: Message,bot: Bot):
                await message.reply(text,parse_mode="HTML",reply_markup=ad_deactivate_keyboard())
           for job_ad in job_ads: # Job ads
                text = f"""
-📌 <b>Ish kerak</b>\n\n➡️<b> Batafsil: t.me/{CHANEL_USERNAME}/{job_ad[2]}"""
+📌 <b>Ish kerak\n\n➡️ Batafsil: t.me/{CHANEL_USERNAME}/{job_ad[2]}</b>"""
           await message.reply(text,parse_mode="HTML",reply_markup=ad_deactivate_keyboard())
                
      else:

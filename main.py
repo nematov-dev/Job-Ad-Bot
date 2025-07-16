@@ -21,6 +21,7 @@ async def main():
     # Create Tables
     queries.create_users_table()
     queries.create_worker_ads_table()
+    queries.create_jobs_ads_table()
 
     # Startup and Shutdown 
     loader.db.startup.register(startup_answer)
