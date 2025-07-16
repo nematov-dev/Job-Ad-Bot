@@ -34,10 +34,10 @@ def main_keyboard_admin():
     )
 
 #Cancel keyboard
-def cancel_keyboard():
+def cancel_keyboard_admin():
     return ReplyKeyboardMarkup(
         keyboard=[
-            [KeyboardButton(text="❌ Bekor qilish")],
+            [KeyboardButton(text="❗ Bekor qilish")],
         ],
         resize_keyboard=True
     )
