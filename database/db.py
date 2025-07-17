@@ -9,5 +9,3 @@ conn = psycopg2.connect(
     host=config.DB_HOST, # host
     port=config.DB_PORT #port
 )
-
-cursor = conn.cursor() # cursor
