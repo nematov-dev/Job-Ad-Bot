@@ -27,8 +27,8 @@ async def start(message: Message):
 - Bu bot orqali:\n
 <b>📌 Ish e’lonlarini joylashtirishingiz
 📌 Mavjud ish e’lonlarini ko‘rishingiz,qidirishingiz
-📌 E’lonlaringizni boshqarishingiz mumkin.\n</b>\n
-Barcha e'lonlar: <a href='https://t.me/{CHANEL_USERNAME}'>Bu yerda </a>\n
+📌 E’lonlaringizni boshqarishingiz mumkin.\n</b>
+📃 <b>Barcha e'lonlar:</b> <a href='https://t.me/{CHANEL_USERNAME}'>Bu yerda </a>\n
 ❗Bot buyruqlari haqida ma’lumot olish uchun /help buyrug‘idan foydalaning.\n
 <b>Marhamat, pasdagi tugmalardan foydalaning 👇🏻</b>"""
 
