@@ -60,7 +60,8 @@ Marhamat, pasdagi tugmalardan foydalaning 👇🏻
 # To the home page
 
 @router.message(F.text == "↩️ Orqaga")
-async def contact(message: Message):
+async def back(message: Message,state: FSMContext):
+    await state.clear()
     await message.answer("🏠 Bosh sahifa", parse_mode="HTML",reply_markup=main_keyboard())
 
 # Add Worker answer
