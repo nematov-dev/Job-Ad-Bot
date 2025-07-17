@@ -354,13 +354,13 @@ def stat_user_month():
     try:
         with conn:
             with conn.cursor() as cursor:
-            sql = """
-            SELECT COUNT(*) FROM users
-            WHERE created_at >= NOW() - INTERVAL '1 month'
-            """
-            cursor.execute(sql)
-            result = cursor.fetchone()
-            return result[0] if result else False
+                sql = """
+                SELECT COUNT(*) FROM users
+                WHERE created_at >= NOW() - INTERVAL '1 month'
+                """
+                cursor.execute(sql)
+                result = cursor.fetchone()
+                return result[0] if result else False
     
     except Exception as e:
         print(f"Xatolik: {e}")
