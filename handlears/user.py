@@ -27,7 +27,8 @@ async def start(message: Message):
 - Bu bot orqali:\n
 <b>📌 Ish e’lonlarini joylashtirishingiz
 📌 Mavjud ish e’lonlarini ko‘rishingiz,qidirishingiz
-📌 E’lonlaringizni boshqarishingiz mumkin.\n</b>
+📌 E’lonlaringizni boshqarishingiz mumkin.\n</b>\n
+Barcha e'lonlar: <a href='https://t.me/{CHANEL_USERNAME}'>Bu yerda </a>\n
 ❗Bot buyruqlari haqida ma’lumot olish uchun /help buyrug‘idan foydalaning.\n
 <b>Marhamat, pasdagi tugmalardan foydalaning 👇🏻</b>"""
 
@@ -37,7 +38,7 @@ async def start(message: Message):
 
 @router.message(Command("help"))
 async def help(message: Message):
-        text = """
+        text = f"""
 🤖 <b>Bot haqida batafsil:</b>\n\nUshbu bot orqali siz e’lon berishingiz va mavjud e’lonlarni boshqarishingiz mumkin.\n
 📌 <b>Asosiy buyruqlar:</b>\n
 ● /start — Botni ishga tushurish va ro‘yxatdan o‘tish.
