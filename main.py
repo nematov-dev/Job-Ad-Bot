@@ -16,7 +16,7 @@ async def shutdown_answer(bot: Bot):
 
 async def main():
     # log settings
-    logging.basicConfig(level=logging.INFO)
+    # logging.basicConfig(level=logging.INFO)
 
     # Create Tables
     queries.create_users_table()
