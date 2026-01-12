@@ -1,42 +1,42 @@
-# 👨‍💼 Telegram Ish Topish va E'lon Bot
+# 👨‍💼 Job Posting and Worker Search Telegram Bot
 
-Bu Telegram bot ish beruvchilar va ish qidiruvchilar uchun mo‘ljallangan.  
-Foydalanuvchilar bot orqali ish joylari va ishchi e'lonlarini joylashlari, mavjud e'lonlarni ko‘rishlari va qidirish imkoniyatiga ega bo‘ladilar.  
+This Telegram bot is designed for **employers and job seekers**.  
+Users can post job vacancies, search for available jobs, view their own ads, and explore other postings directly through Telegram.  
 
-Bot **aiogram** kutubxonasi yordamida ishlab chiqilgan.
-
----
-
-## 📌 Bot buyruqlari
-
-| Buyruq        | Tavsif                                          |
-|:--------------|:------------------------------------------------|
-| `/start`       | Botni ishga tushurish va asosiy menyuni ko‘rsatish |
-| `/help`        | Bot haqida batafsil ma'lumot                     |
-| `/add_worker`  | Ishchi kerakligi haqida e'lon joylash            |
-| `/add_job`     | Ish kerakligi haqida e'lon joylash               |
-| `/cancel`      | Hozirgi jarayonni bekor qilish                   |
-| `/search`      | E'lonlarni qidirish                              |
-| `/my_ads`      | Foydalanuvchining e'lonlarini ko‘rish            |
+The bot is built using **Aiogram**, **PostgreSQL**, and **async Python**.
 
 ---
 
-## 📦 O‘rnatish (Installation)
+## 📌 Bot Commands
 
-1. 📥 Repository’ni yuklab oling:
+| Command        | Description                                        |
+|:---------------|:--------------------------------------------------|
+| `/start`       | Start the bot and show the main menu             |
+| `/help`        | Show detailed information about the bot         |
+| `/add_worker`  | Post an ad for needing a worker                  |
+| `/add_job`     | Post a job ad for yourself                       |
+| `/cancel`      | Cancel the current process                       |
+| `/search`      | Search for job ads                               |
+| `/my_ads`      | View your own job postings                       |
+
+---
+
+## 📦 Installation
+
+1. **Clone the repository:**
 
 ```bash
 git clone https://github.com/nematov-dev/Job-Ad-Bot.git
 cd Job-Ad-Bot
 ```
 
-2. 📦 Kerakli kutubxonalarni o‘rnating:
+2. **Install required dependencies:**
 
 ```bash
 pip install -r requirements.txt
 ```
 
-3. ⚙️ `.env` faylini yaratib, quyidagilarni to‘ldiring:
+3. **Create a `.env` file in the project root and fill in your settings:**
 
 ```
 BOT_TOKEN=your_bot_token
@@ -53,15 +53,17 @@ DB_PORT=your_database_port
 
 ---
 
-## 🚀 Botni ishga tushirish:
+## 🚀 Running the Bot
 
 ```bash
 python main.py
 ```
 
+The bot will connect to the PostgreSQL database and start listening for Telegram messages.
+
 ---
 
-## 🛠 Texnologiyalar
+## 🛠 Technologies
 
 - Python 3.11+
 - Aiogram 3.x
@@ -70,26 +72,27 @@ python main.py
 
 ---
 
-## 📋 Foydalanish tartibi
+## 📋 Usage Guide
 
-1. Botni ishga tushiring va **/start** buyrug‘i orqali menyuga kiring.
-2. Kerakli buyruqni tanlang:
-   - Ish e'loni berish: **/add_job**
-   - Ishchi kerakligi haqida e'lon berish: **/add_worker**
-   - E’lonlaringizni ko‘rish: **/my_ads**
-   - E’lonlarni qidirish: **/search**
-3. Jarayonni istalgan vaqtda **/cancel** buyrug‘i orqali bekor qilishingiz mumkin.
-4. **/help** buyrug‘i orqali barcha imkoniyatlar va bot haqida qo‘shimcha ma’lumot olishingiz mumkin.
-
----
-
-## 📄 Litsenziya
-
-Ushbu loyiha ochiq manba bo‘lib, erkin foydalanish va rivojlantirish uchun mo‘ljallangan.
+1. Start the bot and enter the main menu using the **/start** command.
+2. Choose the appropriate command:
+   - Post a job ad: **/add_job**
+   - Post a worker-needed ad: **/add_worker**
+   - View your own ads: **/my_ads**
+   - Search available ads: **/search**
+3. You can cancel any ongoing process at any time using **/cancel**.
+4. Use **/help** to get full information about the bot and its features.
 
 ---
 
-## 📞 Muallif bilan bog‘lanish
+## 👨‍💻 Developer
 
-- 👤 Muallif: **Saidakbar Nematov** – [nematov.uz](https://nematov.uz)
-- 📱 Telegram: [@n_saidakbar](https://t.me/n_saidakbar)
+**[Saidakbar Ne'matov](https://nematov.uz)**
+
+---
+
+## 📄 License
+
+This project is open-source and intended for free use and development.
+
+---
